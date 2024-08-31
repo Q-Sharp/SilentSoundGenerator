@@ -1,9 +1,9 @@
 ﻿using System.Media;
 using System.Reflection;
 
-var assembly = Assembly.GetExecutingAssembly();
+using var stream = Assembly.GetExecutingAssembly()
+						   .GetManifestResourceStream("SilentSoundGenerator.silent.wav");
 
-using var stream = assembly.GetManifestResourceStream("SilentSoundGenerator.silent.wav");
 using var player = new SoundPlayer(stream);
 player.PlayLooping();
 

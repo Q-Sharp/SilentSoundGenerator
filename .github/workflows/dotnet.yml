@@ -52,25 +52,16 @@ jobs:
         files: ./publish/
         dest: ./release/silent-sound-generator-${{ env.fullSemVer }}.zip
 
-    - name: Create GitHub Release
-      uses: actions/create-release@v1
-      id: create_release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Bump version and push tag
+      uses: laputansoft/github-tag-action@v4.6
       with:
-        tag_name: ${{ env.fullSemVer }}
-        release_name: "Silent Sound Generator ${{ env.fullSemVer }}"
-        body: "Automatic release for ${{ env.fullSemVer }}"
-        draft: false
-        prerelease: false
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        tag: v${{ env.fullSemVer }}
 
-    - name: Upload Release Asset
-      id: upload-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Release
+      uses: softprops/action-gh-release@v2
       with:
-        upload_url: ${{ steps.create-release.outputs.upload_url }}
-        asset_path: ./release/silent-sound-generator-${{ env.fullSemVer }}.zip
-        asset_name: silent-sound-generator-${{ env.fullSemVer }}.zip
-        asset_content_type: application/zip
+        files: ./release/silent-sound-generator-${{ env.fullSemVer }}.zip
+        name: v${{ env.fullSemVer }}
+        tag_name: v${{ env.fullSemVer }}
+        make_latest: true

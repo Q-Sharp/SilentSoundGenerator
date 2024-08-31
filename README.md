@@ -1,5 +1,7 @@
 # Silent Sound Generator
 
+[![Silent Sound Generator](https://github.com/Q-Sharp/SilentSoundGenerator/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Q-Sharp/SilentSoundGenerator/actions/workflows/dotnet.yml)
+
 ## Overview
 
 The Silent Sound Generator is a small utility designed to address issues with wireless headsets, specifically Jabra devices, which tend to automatically turn off due to inactivity. This application helps prevent such devices from powering down by simulating continuous audio playback, ensuring they remain active and ready for use.
