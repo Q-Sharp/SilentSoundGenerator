@@ -45,7 +45,7 @@ jobs:
       run: dotnet build --no-restore -p:Version=${{ env.fullSemVer }}
       
     - name: Publish
-      run: dotnet publish SilentSoundGenerator/SilentSoundGenerator.csproj -c Release -r win-x64 --self-contained -p:Version=${{ env.fullSemVer }} -o "./publish"
+      run: dotnet publish SilentSoundGenerator/SilentSoundGenerator.csproj -c Release -p:Version=${{ env.fullSemVer }} -o "./publish"
 
     - uses: vimtor/action-zip@v1.2
       with:

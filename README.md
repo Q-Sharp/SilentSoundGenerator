@@ -19,11 +19,13 @@ Many wireless headsets, especially Jabra models, have a feature that turns them 
 
 ## Installation
 
+1. **[Download](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) and install** dotnet 8 runtime 
+
 1. **Download the Latest Release**: Go to the [Releases page](https://github.com/Q-Sharp/SilentSoundGenerator/releases) and download the latest version of the executable.
 
-2. **Run the Application**: Simply run the downloaded `.exe` file. It will start simulating silent audio playback and will continue to do so until it is closed.
+1. **Run the Application**: Simply run the downloaded `.exe` file. It will start simulating silent audio playback and will continue to do so until it is closed.
 
-3. **(Optional) Add to Autostart**: To ensure the application starts automatically with Windows:
+1. **(Optional) Add to Autostart**: To ensure the application starts automatically with Windows:
     - **Manual Method**: Create a shortcut of the `SilentSoundGenerator.exe` file and place it in the Windows Startup folder. You can access this folder by pressing `Win + R`, typing `shell:startup`, and pressing Enter. Paste the shortcut in the opened folder.
     - **Automated Method**: You can use third-party tools or scripts to add the application to the startup automatically. 
 
@@ -31,9 +33,9 @@ Many wireless headsets, especially Jabra models, have a feature that turns them 
 
 1. **Launch the Application**: Double-click on the executable file to start the Silent Sound Generator.
 
-2. **Keep Your Headset Active**: The application will continuously play silent audio, preventing your wireless headset from automatically turning off.
+1. **Keep Your Headset Active**: The application will continuously play silent audio, preventing your wireless headset from automatically turning off.
 
-3. **Stop the Application**: To stop the simulation, close the application window or use the task manager to terminate the process.
+1. **Stop the Application**: To stop the simulation, close the application window or use the task manager to terminate the process.
 
 ## How It Works
 
