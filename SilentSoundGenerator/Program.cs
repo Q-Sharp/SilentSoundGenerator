@@ -1,8 +1,11 @@
-﻿using NAudio.Wave;
+﻿using System.Media;
+using System.Reflection;
 
-var waveOut = new WaveOutEvent();
-waveOut.Init(new SilenceProvider(new WaveFormat(44100, 1)).ToSampleProvider());
-waveOut.Play();
+var assembly = Assembly.GetExecutingAssembly();
+
+using var stream = assembly.GetManifestResourceStream("SilentSoundGenerator.silent.wav");
+using var player = new SoundPlayer(stream);
+player.PlayLooping();
 
 while(true)
 {

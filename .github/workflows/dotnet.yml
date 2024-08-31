@@ -12,15 +12,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.10.3
+      uses: gittools/actions/gitversion/setup@v3.0.0
       with:
-        versionSpec: '5.x'
+        versionSpec: '6.x'
 
-    - name: Generate version using GitVersion
-      id: gitversion
-      run: gitversion /output json /showvariable FullSemVer
+    - name: Determine Version
+      uses: gittools/actions/gitversion/execute@v3.0.0
+      with:
+        updateAssemblyInfo: true
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -31,29 +34,35 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build --no-restore -p:Version=${{ steps.gitversion.outputs.FullSemVer }}
-
+      run: dotnet build --no-restore -p:Version=${{ env.fullSemVer }}
+      
     - name: Publish
-      run: dotnet publish -c Release -r win-x64 --self-contained -p:Version=${{ steps.gitversion.outputs.FullSemVer }}
+      run: dotnet publish SilentSoundGenerator/SilentSoundGenerator.csproj -c Release -r win-x64 --self-contained -p:Version=${{ env.fullSemVer }} -o "./publish"
 
-    - name: Zip published output
-      run: Compress-Archive -Path ./bin/Release/net8.0-windows/win-x64/publish/* -DestinationPath ./silent-sound-generator-${{ steps.gitversion.outputs.FullSemVer }}.zip
+    - uses: vimtor/action-zip@v1.2
+      with:
+        files: ./publish/
+        dest: ./release/silent-sound-generator-${{ env.fullSemVer }}.zip
 
     - name: Create GitHub Release
       uses: actions/create-release@v1
+      id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.gitversion.outputs.FullSemVer }}
-        release_name: "Silent Sound Generator ${{ steps.gitversion.outputs.FullSemVer }}"
-        body: "Automatischer Release für Version ${{ steps.gitversion.outputs.FullSemVer }}"
+        tag_name: ${{ env.fullSemVer }}
+        release_name: "Silent Sound Generator ${{ env.fullSemVer }}"
+        body: "Automatic release for ${{ env.fullSemVer }}"
         draft: false
         prerelease: false
 
     - name: Upload Release Asset
+      id: upload-release-asset 
       uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create-release.outputs.upload_url }}
-        asset_path: ./bin/Release/net8.0-windows/win-x64/publish
-        asset_name: silent-sound-generator-${{ steps.gitversion.outputs.FullSemVer }}.zip
+        asset_path: ./release/silent-sound-generator-${{ env.fullSemVer }}.zip
+        asset_name: silent-sound-generator-${{ env.fullSemVer }}.zip
         asset_content_type: application/zip
